@@ -1,39 +1,3 @@
-# [Soft UI Design System](https://appseed.us/ui-kit/soft-ui-design-system) Flask
-
-**[Soft UI Design System](https://appseed.us/ui-kit/soft-ui-design-system)** is a Premium Bootstrap 5 UI Kit designed by [Creative-Tim](https://bit.ly/3fKQZaL) designed for those who like bold elements and beautiful websites. **Soft UI Design System Flask**  is a simple Flask starter provided by AppSeed with a modular codebase, database, authentication and deployment scripts - Features:
-
-<br />
-
-- UI Kit: **Soft UI Design System** (Free Version) by **Creative-Tim**
-- SQLite database, Flask-SQLAlchemy ORM
-- Session-Based auth flow (login, register)
-- Deployment scripts: Docker, Gunicorn / Nginx, Heroku
-- Support via **Github** (issues tracker) and [Discord](https://discord.gg/fZC6hup).
-
-<br />
-
-> Links
-
-- [Soft UI Design System Flask](https://appseed.us/product/flask-soft-ui-design-system) - product page
-- [Soft UI Design System Flask - Demo](https://flask-soft-ui-free.appseed-srv1.com/) - LIVE Deployment
-
-<br />
-
-## Want more? Go PRO!
-
-PRO versions include **Premium UI Kits**, Lifetime updates and **24/7 LIVE Support** (via [Discord](https://discord.gg/fZC6hup))
-
-| [Flask Soft UI PRO](https://appseed.us/product/flask-soft-ui-pro) | [Flask Material PRO](https://appseed.us/admin-dashboards/flask-dashboard-material-pro) | [Flask Volt PRO](https://appseed.us/admin-dashboards/flask-dashboard-volt-pro) |
-| --- | --- | --- |
-| [![Flask Soft UI PRO](https://raw.githubusercontent.com/app-generator/soft-ui-design-system/main/media/soft-ui-design-system-screen.png)](https://appseed.us/product/flask-soft-ui-pro) | [![Flask Material PRO](https://raw.githubusercontent.com/app-generator/flask-dashboard-material-pro/master/media/flask-dashboard-material-pro-screen.png)](https://appseed.us/admin-dashboards/flask-dashboard-material-pro) | [![Flask Volt PRO](https://raw.githubusercontent.com/app-generator/flask-dashboard-volt-pro/master/media/flask-dashboard-volt-pro-screen.png)](https://appseed.us/admin-dashboards/flask-dashboard-volt-pro)
-
-<br />
-<br />
-
-![Flask Template - Starter provided by AppSeed.](https://raw.githubusercontent.com/app-generator/flask-soft-ui-free/master/media/flask-soft-ui-free-screen.png)
-
-<br />
-
 ## Build from sources
 
 ```bash
@@ -223,22 +187,3 @@ Serving on http://localhost:8001
 Visit `http://localhost:8001` in your browser. The app should be up & running.
 
 <br />
-
-## [Soft UI Design System](https://appseed.us/ui-kit/soft-ui-design-system) - UI Kit
-
-Most complex and innovative Design System Made by Creative Tim. Soft UI Design System is built with over 70 frontend individual elements, like buttons, inputs, navbars, navtabs, cards or alerts, giving you the freedom of choosing and combining. All components can take variations in colour, that you can easily modify using SASS files and classes.
-
-You will save a lot of time going from prototyping to full-functional code, because all elements are implemented. This Free Bootstrap 5 UK Kit is coming with prebuilt design blocks, so the development process is seamless, switching from our pages to the real website is very easy to be done.
-
-<br />
-
-## Credits & Links
-
-- [Flask Framework](https://www.palletsprojects.com/p/flask/) - The official website
-- [Boilerplate Code](https://appseed.us/boilerplate-code) - Index provided by **AppSeed**
-- [Boilerplate Code](https://github.com/app-generator/boilerplate-code) - Index published on Github
-
-<br />
-
----
-[Soft UI Design System](https://appseed.us/ui-kit/soft-ui-design-system) Flask - Provided by **AppSeed** [App Generator](https://appseed.us/app-generator).
