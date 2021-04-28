@@ -129,6 +129,14 @@ def index(path):
     except:
         return render_template('page-500.html'), 500
 
+
+@app.route('/', methods=['POST'])
+def upload_file():
+    uploaded_file = request.files['file']
+    if uploaded_file.filename != '':
+        uploaded_file.save(os.path.join('app/static/uploads', uploaded_file.filename))
+    return redirect('/')
+
 # Return sitemap
 @app.route('/sitemap.xml')
 def sitemap():
