@@ -4,6 +4,7 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 # Python modules
+from app.videoEvaluation import stroke_evaluation
 import os, logging 
 
 # Flask modules
@@ -137,6 +138,9 @@ def upload_file():
 
     if uploaded_file.filename != '':
         uploaded_file.save(os.path.join('app/static/uploads', uploaded_file.filename))
+    # model evaluation
+    stroke_evaluation()
+    
     return redirect('/')
 
 # Return sitemap
