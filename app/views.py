@@ -134,13 +134,13 @@ def index(path):
 @app.route('/', methods=['POST'])
 def upload_file():
     uploaded_file = request.files['file']
-    print(request.files, '<<<< FILE DATA >>>')
+    video = os.path.join('app/static/uploads', uploaded_file.filename)
 
     if uploaded_file.filename != '':
-        uploaded_file.save(os.path.join('app/static/uploads', uploaded_file.filename))
+        uploaded_file.save(video)
     # model evaluation
-    stroke_evaluation()
-    
+    prediction  = stroke_evaluation(video_file = video)
+    print(prediction)
     return redirect('/')
 
 # Return sitemap

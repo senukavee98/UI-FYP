@@ -89,12 +89,15 @@
               <script>
                   Dropzone.options.videoDropzone = {
                     maxFiles: 1,
-                    dictDefaultMessage: 'Drop files here or click to upload'
-                  
+                    dictDefaultMessage: 'Drop files here or click to upload',
+                    acceptedFiles: '.mp4,.mkv,.avi'
                   };
               </script>
 
             </div>
+            <!-- {% for data in data % }
+            <h1> {{data[0]}} </h1>
+            {{% end for % } -->
 
           </div>
         </div>

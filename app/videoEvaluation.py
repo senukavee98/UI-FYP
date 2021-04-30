@@ -34,16 +34,16 @@ from keras.optimizers import Adam
 # input_path = os.path.join(data_path, 'static\uploads\543319.jpg')
 weight_file = r'D:\MyWorkSpace\IIT\LEVEL_6\FYP\Prototype\UI-FYP\app\Model\weights_strokes_V1_5_epochs-180-final1-nofilter-.hdf5'
 train_csv = r'D:\MyWorkSpace\IIT\LEVEL_6\FYP\Prototype\UI-FYP\app\Model\train_v1_5_1.csv'
-temp = r'D:\MyWorkSpace\IIT\LEVEL_6\FYP\Prototype\UI-FYP\app\Model\temp\*'
+temp = r'D:\MyWorkSpace\IIT\LEVEL_6\FYP\Prototype\UI-FYP\app\Model\temp'
 input_video = r"H:\FYPmaterial\Tennis\test"
-loc = r'D:\MyWorkSpace\IIT\LEVEL_6\FYP\Prototype\UI-FYP\app\Model\temp'
 initial_lr = 0.001
 
+# base model
+base_model = VGG19(weights='imagenet',include_top=False)
 
-def stroke_evaluation():
-    # base model
-    base_model = VGG19(weights='imagenet',include_top=False)
-
+def build_model():
+    
+    # layers
     model = Sequential()
     model.add(Dense(1024, activation='relu', input_shape=(25088,)))
     model.add(Dropout(0.5))
@@ -59,17 +59,21 @@ def stroke_evaluation():
     model.load_weights(weight_file)
     model.compile(optimizer=Adam(learning_rate=initial_lr), loss='categorical_crossentropy', metrics=['accuracy'])
 
+    return model
+
+def stroke_evaluation(video_file):
+    
+    model = build_model()
+    
     train = pd.read_csv(train_csv)
     y = train['Class']
     y = pd.get_dummies(y)
 
     predict = []
-    actual = []
 
     # extract frames from each video
     count = 0
-    videoFile = r'Forhand\v_Forehand_g53_c04.mp4'
-    cap = cv2.VideoCapture(r"H:\FYPmaterial\Tennis\test\Forhand\v_Forehand_g53_c04.mp4")
+    cap = cv2.VideoCapture(video_file)
     frameRate = cap.get(5)
     x = 1
     # remove other files from temp
@@ -84,13 +88,13 @@ def stroke_evaluation():
         if (ret != True):
             break
             
-        filename = loc + '\\' + "_frame%d.jpg" % count;count+=1
+        filename = temp + '\\' + "_frame%d.jpg" % count;count+=1
         cv2.imwrite(filename, frame)
 
     cap.release()
 
     # reading all the frames from temp folder
-    images = glob(loc + '\\*'+".jpg")
+    images = glob(temp + '\\*'+".jpg")
     prediction_images = []
     prediction_images.clear()
     for i in range(len(images)):
@@ -104,10 +108,9 @@ def stroke_evaluation():
     prediction_images = prediction_images.reshape(prediction_images.shape[0] ,7*7*512)
     prediction = np.argmax(model.predict(prediction_images), axis=-1)
     predict.append(y.columns.values[s.mode(prediction)[0][0]])
-    actual.append('Forehand')
 
     for f in files:
         os.remove(f)
 
-    return print(actual, predict)
+    return predict
 
