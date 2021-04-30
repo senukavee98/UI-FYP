@@ -32,10 +32,11 @@ from scipy import stats as s
 from keras.optimizers import Adam
 
 # input_path = os.path.join(data_path, 'static\uploads\543319.jpg')
-weight_file = r'D:\MyWorkSpace\IIT\LEVEL_6\FYP\Prototype\UI-FYP\app\Model\weights_strokes_V1_5_epochs-180-final1-nofilter-.hdf5'
-train_csv = r'D:\MyWorkSpace\IIT\LEVEL_6\FYP\Prototype\UI-FYP\app\Model\train_v1_5_1.csv'
-temp = r'D:\MyWorkSpace\IIT\LEVEL_6\FYP\Prototype\UI-FYP\app\Model\temp'
-input_video = r"H:\FYPmaterial\Tennis\test"
+data_path = 'app\Model'
+weight_file = os.path.join(data_path, 'weights_strokes_V1_5_epochs-180-final1-nofilter-.hdf5')
+train_csv = os.path.join(data_path, 'train_v1_5_1.csv')
+temp = os.path.join(data_path, 'temp')
+
 initial_lr = 0.001
 
 # base model
