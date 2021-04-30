@@ -14,7 +14,4 @@ tensorflow
 numpy
 pandas
 tqdm
-cv2
-math
-os
-glob
+opencv-python
