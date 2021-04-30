@@ -6,6 +6,8 @@ Copyright (c) 2019 - present AppSeed.us
 # Python modules
 from app.videoEvaluation import stroke_evaluation
 import os, logging 
+from flask import json
+from werkzeug.exceptions import HTTPException
 
 # Flask modules
 from flask               import render_template, request, url_for, redirect, send_from_directory
@@ -22,6 +24,20 @@ from app.forms  import LoginForm, RegisterForm
 @lm.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+@app.errorhandler(HTTPException)
+def handle_exception(e):
+    """Return JSON instead of HTML for HTTP errors."""
+    # start with the correct headers and status code from the error
+    response = e.get_response()
+    # replace the body with JSON
+    response.data = json.dumps({
+        "code": e.code,
+        "name": e.name,
+        "description": e.description,
+    })
+    response.content_type = "application/json"
+    return response
 
 # Logout user
 @app.route('/logout.html')
