@@ -26,8 +26,8 @@ data_path = 'app\Training'
 prediction_path = r'app\static\assets\output'
 weight_file = os.path.join(data_path, 'forehand_activity-test-350-FINAL.model')
 label_binerizer = os.path.join(data_path, 'forehand_lb-test-350-FINAL.pickle')
-video_path = os.path.join(prediction_path, 'output1.mp4')
-# D:\MyWorkSpace\IIT\LEVEL_6\FYP\Prototype\UI-FYP\app\static\assets\output
+video_path = os.path.join(prediction_path, 'output.mp4')
+
 def rolling_prediction(video):
 
     print("========================IN========================")
@@ -75,7 +75,7 @@ def rolling_prediction(video):
 
         if video_writer is None:
             # initialize our video video_writer
-            fourcc = cv2.VideoWriter_fourcc(*"XVID")
+            fourcc = cv2.VideoWriter_fourcc(*'avc1')
             video_writer = cv2.VideoWriter(video_path, fourcc, 20.0,(int(vs.get(3)),int(vs.get(4))))
             # write the output frame to disk
         video_writer.write(output)

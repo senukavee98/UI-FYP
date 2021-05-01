@@ -15,3 +15,5 @@ numpy
 pandas
 tqdm
 opencv-python
+pillow
+sklearn
