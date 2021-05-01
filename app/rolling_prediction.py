@@ -27,12 +27,12 @@ prediction_path = 'app\Predictions'
 weight_file = os.path.join(data_path, 'forehand_activity-test-350-FINAL.model')
 label_binerizer = os.path.join(data_path, 'forehand_lb-test-350-FINAL.pickle')
 video_path = os.path.join(prediction_path, 'video', 'output.avi')
+predicted_stroke = ''
 
-with open('app\Predictions\stroke.pickle', 'rb') as fp:
-    item = pickle.load(fp)
+def rolling_prediction(pred, video):
+    global predicted_stroke
 
-def rolling_prediction():
-    print("========================IN========================", item)
+    print("========================IN========================")
 
     step_model = load_model(weight_file)
     lb = pickle.loads(open(label_binerizer, 'rb').read())
@@ -42,7 +42,7 @@ def rolling_prediction():
     queue = deque(maxlen=QUEUESIZE)
 
         # capturing the video
-    vs = cv2.VideoCapture(item)
+    vs = cv2.VideoCapture(video)
     
     video_writer = None
     (W, H) = (None, None)
@@ -94,5 +94,9 @@ def rolling_prediction():
     print("[INFO] cleaning up...")
     video_writer.release()
     vs.release()
+    predicted_stroke = pred
+    return
 
-    return item
+# return predicted stroke
+def show_pred() :
+    return predicted_stroke

@@ -4,7 +4,7 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 # Python modules
-from app.rolling_prediction import rolling_prediction
+from app.rolling_prediction import rolling_prediction, show_pred
 from app.videoEvaluation import stroke_evaluation
 import os, logging 
 from flask import json
@@ -158,10 +158,9 @@ def upload_file():
     # model evaluation
     prediction  = stroke_evaluation(video_file = video)
 
-    with open('app\Predictions\stroke.pickle', 'wb') as fp:
-        pickle.dump(video, fp)
-    
     print(prediction)
+    rolling_prediction(prediction[0], video)
+
     return redirect('/')
 
 # Return sitemap
@@ -173,5 +172,5 @@ def sitemap():
 # return video
 @app.route('/steps', methods=['GET'])
 def step():
-    item = rolling_prediction()
+    item = show_pred()
     return render_template('step_result.html', item=item)
