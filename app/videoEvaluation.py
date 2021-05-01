@@ -1,6 +1,7 @@
 
 # Python modules
 import os, logging 
+# from numba import jit, cuda
 
 # Flask modules
 from flask               import render_template, request, url_for, redirect, send_from_directory
@@ -12,7 +13,6 @@ from jinja2              import TemplateNotFound
 from app        import app, lm, db, bc
 from app.models import User 
 from app.forms  import LoginForm, RegisterForm
-
 
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Flatten, Reshape, Input
@@ -32,7 +32,7 @@ from scipy import stats as s
 from keras.optimizers import Adam
 
 # input_path = os.path.join(data_path, 'static\uploads\543319.jpg')
-data_path = 'app\Model'
+data_path = 'app\Training'
 weight_file = os.path.join(data_path, 'weights_strokes_V1_5_epochs-180-final1-nofilter-.hdf5')
 train_csv = os.path.join(data_path, 'train_v1_5_1.csv')
 temp = os.path.join(data_path, 'temp')
@@ -62,6 +62,7 @@ def build_model():
 
     return model
 
+# @jit(target ="cuda")
 def stroke_evaluation(video_file):
     
     model = build_model()

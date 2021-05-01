@@ -4,6 +4,7 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 # Python modules
+from app.rolling_prediction import rolling_prediction
 from app.videoEvaluation import stroke_evaluation
 import os, logging 
 from flask import json
@@ -19,6 +20,7 @@ from jinja2              import TemplateNotFound
 from app        import app, lm, db, bc
 from app.models import User
 from app.forms  import LoginForm, RegisterForm
+import pickle
 
 # provide login manager with load_user callback
 @lm.user_loader
@@ -146,20 +148,30 @@ def index(path):
     except:
         return render_template('page-500.html'), 500
 
-
+video = ''
 @app.route('/', methods=['POST'])
 def upload_file():
+    global video 
     uploaded_file = request.files['file']
     video = os.path.join('app/static/uploads', uploaded_file.filename)
 
     if uploaded_file.filename != '':
         uploaded_file.save(video)
-    # model evaluation
-    prediction  = stroke_evaluation(video_file = video)
-    print(prediction)
+
     return redirect('/')
 
 # Return sitemap
 @app.route('/sitemap.xml')
 def sitemap():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'sitemap.xml')
+
+
+# return video
+@app.route('/steps', methods=['GET'])
+def step():
+     # model evaluation
+    prediction  = stroke_evaluation(video_file = video)
+    print(prediction)
+    rolling_prediction(video)
+
+    return render_template('step_result.html', item=prediction[0])
