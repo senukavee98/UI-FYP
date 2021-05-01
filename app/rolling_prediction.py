@@ -26,7 +26,7 @@ data_path = 'app\Training'
 prediction_path = 'app\Predictions'
 weight_file = os.path.join(data_path, 'forehand_activity-test-350-FINAL.model')
 label_binerizer = os.path.join(data_path, 'forehand_lb-test-350-FINAL.pickle')
-video_path = os.path.join(prediction_path, 'video', 'output.avi')
+video_path = os.path.join(prediction_path, 'output.avi')
 
 def rolling_prediction(video):
 
