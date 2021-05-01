@@ -4,7 +4,7 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 # Python modules
-from app.rolling_prediction import rolling_prediction, show_pred
+from app.rolling_prediction import rolling_prediction
 from app.videoEvaluation import stroke_evaluation
 import os, logging 
 from flask import json
@@ -148,18 +148,15 @@ def index(path):
     except:
         return render_template('page-500.html'), 500
 
+video = ''
 @app.route('/', methods=['POST'])
 def upload_file():
+    global video 
     uploaded_file = request.files['file']
     video = os.path.join('app/static/uploads', uploaded_file.filename)
 
     if uploaded_file.filename != '':
         uploaded_file.save(video)
-    # model evaluation
-    prediction  = stroke_evaluation(video_file = video)
-
-    print(prediction)
-    rolling_prediction(prediction[0], video)
 
     return redirect('/')
 
@@ -172,5 +169,9 @@ def sitemap():
 # return video
 @app.route('/steps', methods=['GET'])
 def step():
-    item = show_pred()
-    return render_template('step_result.html', item=item)
+     # model evaluation
+    prediction  = stroke_evaluation(video_file = video)
+    print(prediction)
+    rolling_prediction(video)
+
+    return render_template('step_result.html', item=prediction[0])
