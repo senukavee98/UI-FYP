@@ -51,6 +51,18 @@
               <script>
                   Dropzone.options.videoDropzone = {
                     maxFiles: 1,
+                    accept: function(file, done) {
+                      console.log("uploaded");
+                      done();
+                    },
+                    init: function() {
+                      this.on("maxfilesexceeded", function(file){
+                          alert("No more files please!");
+                          if (this.files[1]!=null){
+                            this.removeFile(this.files[1]);
+                          }
+                      });
+                    },
                     dictDefaultMessage: 'Drop files here or click to upload',
                     acceptedFiles: '.mp4,.mkv,.avi'
                   };
