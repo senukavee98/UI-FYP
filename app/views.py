@@ -4,7 +4,11 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 # Python modules
+from app.rolling_prediction import rolling_prediction
+from app.videoEvaluation import stroke_evaluation
 import os, logging 
+from flask import json
+from werkzeug.exceptions import HTTPException
 
 # Flask modules
 from flask               import render_template, request, url_for, redirect, send_from_directory
@@ -16,11 +20,26 @@ from jinja2              import TemplateNotFound
 from app        import app, lm, db, bc
 from app.models import User
 from app.forms  import LoginForm, RegisterForm
+import pickle
 
 # provide login manager with load_user callback
 @lm.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+@app.errorhandler(HTTPException)
+def handle_exception(e):
+    """Return JSON instead of HTML for HTTP errors."""
+    # start with the correct headers and status code from the error
+    response = e.get_response()
+    # replace the body with JSON
+    response.data = json.dumps({
+        "code": e.code,
+        "name": e.name,
+        "description": e.description,
+    })
+    response.content_type = "application/json"
+    return response
 
 # Logout user
 @app.route('/logout.html')
@@ -129,15 +148,30 @@ def index(path):
     except:
         return render_template('page-500.html'), 500
 
-
+video = ''
 @app.route('/', methods=['POST'])
 def upload_file():
+    global video 
     uploaded_file = request.files['file']
+    video = os.path.join('app/static/uploads', uploaded_file.filename)
+
     if uploaded_file.filename != '':
-        uploaded_file.save(os.path.join('app/static/uploads', uploaded_file.filename))
+        uploaded_file.save(video)
+
     return redirect('/')
 
 # Return sitemap
 @app.route('/sitemap.xml')
 def sitemap():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'sitemap.xml')
+
+
+# return video
+@app.route('/steps', methods=['GET'])
+def step():
+     # model evaluation
+    prediction  = stroke_evaluation(video_file = video)
+    print(prediction)
+    confidence_score = rolling_prediction(video)
+
+    return render_template('step_result.html', item=prediction[0] , score = confidence_score)
