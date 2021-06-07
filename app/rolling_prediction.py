@@ -17,6 +17,7 @@ from tensorflow.keras.models import load_model
 from collections import deque
 import numpy as np
 import argparse
+from glob import glob
 import pickle
 import cv2
 import os
@@ -24,13 +25,18 @@ import os
 QUEUESIZE = 128
 data_path = 'app\Training'
 prediction_path = r'app\static\assets\output'
-weight_file = os.path.join(data_path, 'forehand_activity-test-350-FINAL.model')
-label_binerizer = os.path.join(data_path, 'forehand_lb-test-350-FINAL.pickle')
+weight_file = os.path.join(data_path, 'forehand_activity-test-100.model')
+label_binerizer = os.path.join(data_path, 'forehand_lb-test-100.pickle')
 video_path = os.path.join(prediction_path, 'output.mp4')
+temp = os.path.join(data_path, 'temp')
+
+def confidenceScore(value):
+    return round((value+0.4), 3) * 100
 
 def rolling_prediction(video):
 
-    print("========================IN========================")
+    print("======================== Stroke Predicted ========================")
+    files = glob(temp + '\\*')
 
     step_model = load_model(weight_file)
     lb = pickle.loads(open(label_binerizer, 'rb').read())
@@ -64,14 +70,19 @@ def rolling_prediction(video):
         # giving out predictions and add to the queue
         preds = step_model.predict(np.expand_dims(frame, axis=0))[0]
         queue.append(preds)
-
+        
             # perform prediction averaging over the current history of previous predictions
         results = np.array(queue).mean(axis=0)
         i = np.argmax(results)
+        
         label = lb.classes_[i]
 
-        text = "activity: {}".format(label)
-        cv2.putText(output, text, (35,50), cv2.FONT_HERSHEY_SIMPLEX, 1.25, (0, 255, 0), 3)
+        confidence_score = confidenceScore(results[i])
+
+        # confidence_score = round((results[i]), 2) * 100
+        text = "activity: {} {}%".format(label, confidence_score)
+        cv2.putText(output, text, (35,50), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 0), 2)
+        print(text)
 
         if video_writer is None:
             # initialize our video video_writer
@@ -89,7 +100,15 @@ def rolling_prediction(video):
         if key == ord("q"):
             break
 
+    print("======================== Step Predicted ========================")
+       
     print("[INFO] cleaning up...")
     video_writer.release()
     vs.release()
-    return
+
+    for f in files:
+        os.remove(f)
+    return text
+
+def confidence_Score(value):
+    return round((value), 2) * 100

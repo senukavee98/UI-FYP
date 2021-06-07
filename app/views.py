@@ -172,6 +172,6 @@ def step():
      # model evaluation
     prediction  = stroke_evaluation(video_file = video)
     print(prediction)
-    rolling_prediction(video)
+    confidence_score = rolling_prediction(video)
 
-    return render_template('step_result.html', item=prediction[0])
+    return render_template('step_result.html', item=prediction[0] , score = confidence_score)

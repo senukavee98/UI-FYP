@@ -33,7 +33,7 @@ from keras.optimizers import Adam
 
 # input_path = os.path.join(data_path, 'static\uploads\543319.jpg')
 data_path = 'app\Training'
-weight_file = os.path.join(data_path, 'weights_strokes_V1_5_epochs-180-final1-nofilter-.hdf5')
+weight_file = os.path.join(data_path, 'weights_strokes_V1_5_epochs-250.hdf5')
 train_csv = os.path.join(data_path, 'train_v1_5_1.csv')
 temp = os.path.join(data_path, 'temp')
 
@@ -111,8 +111,8 @@ def stroke_evaluation(video_file):
     prediction = np.argmax(model.predict(prediction_images), axis=-1)
     predict.append(y.columns.values[s.mode(prediction)[0][0]])
 
-    for f in files:
-        os.remove(f)
+    # print(np.argmax(model.predict(prediction_images), axis=-1))
+    # print(model.predict(prediction_images))
 
     return predict
 
